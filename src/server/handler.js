@@ -54,4 +54,23 @@ async function postPredictHistoriesHandler(request, h) {
   return response;
 }
 
-module.exports = { postPredictHandler, postPredictHistoriesHandler };
+const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');
+const client = new SecretManagerServiceClient();
+
+async function accessSecret(name ='submission', version='latest') {
+  try {
+    if (!process.env.GOOGLE_PROJECT_ID) {
+      throw 'Please set the GOOGLE_PROJECT_ID environment variable.';
+    }
+    const fullName = `projects/${process.env.GOOGLE_PROJECT_ID}/secrets/` +
+                     `${name}/versions/${version}`;
+    const [response] = await client.accessSecretVersion({name: fullName});
+    const payload = response.payload.data.toString();
+    return payload;
+  }
+  catch (ex) {
+    console.log(ex.toString());
+  }
+}
+
+module.exports = { postPredictHandler, postPredictHistoriesHandler, accessSecret };
