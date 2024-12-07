@@ -1,9 +1,8 @@
 const { Firestore } = require('@google-cloud/firestore');
-const accessSecret = require ('../server/accessSecret');
 
-async function getAllData(accessSecret) {
+async function getAllData() {
     const db = new Firestore();
-    const predictCollection = accessSecret.db.collection('predictions');
+    const predictCollection = db.collection('predictions');
     
     const allData = await predictCollection.get();
     return allData;
