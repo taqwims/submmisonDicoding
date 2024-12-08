@@ -7,3 +7,5 @@ COPY . .
 RUN npm install
 EXPOSE 8080
 CMD [ "npm", "run", "start"]
+HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=3 CMD curl -f http://localhost:${PORT}/ || exit 1
+EXPOSE 8080
