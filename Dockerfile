@@ -5,5 +5,5 @@ ENV MODEL_URL ='https://storage.googleapis.com/peyimpanan321/model/model.json'
 ENV GOOGLE_PROJECT_ID = 'submission-444018'
 COPY . .
 RUN npm install
-EXPOSE 9000
+EXPOSE 90
 CMD [ "npm", "run", "start"]
